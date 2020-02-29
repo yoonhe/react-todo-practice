@@ -1,7 +1,12 @@
 import React from "react";
 import CategoryListItem from "./CategoryListItem";
 
-const CategoryList = ({ categorys, addCategoryItem, editCategoryItem }) => (
+const CategoryList = ({
+  categorys,
+  clickCategoryItem,
+  addCategoryItem,
+  editCategoryItem
+}) => (
   <div className="category-wrap">
     <p className="btn-box">
       <button
@@ -14,9 +19,11 @@ const CategoryList = ({ categorys, addCategoryItem, editCategoryItem }) => (
     <ul className="cate-list">
       {categorys.map((item, index) => (
         <CategoryListItem
+          item={item}
           key={index}
           itemId={item["key"]}
           editCategoryItem={editCategoryItem}
+          clickCategoryItem={clickCategoryItem}
         />
       ))}
     </ul>

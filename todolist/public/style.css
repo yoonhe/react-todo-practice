@@ -23,9 +23,6 @@ li {
   width: 300px;
   background: #383836;
 }
-.section.right {
-  width: calc(100% - 300px);
-}
 
 .section.left .btn-box {
   text-align: right;
@@ -78,11 +75,22 @@ li {
   font-size: 20px;
   color: #fff;
 }
-
 .cate-list li input {
   position: absolute;
   top: 0;
   left: 0;
   border: none;
   background: #383836;
+}
+.cate-list li .cate-item {
+  cursor: pointer;
+}
+
+.section.right {
+  padding: 30px;
+  width: calc(100% - 300px);
+}
+.todo-list-box h2 {
+  margin-bottom: 20px;
+  font-size: 30px;
 }

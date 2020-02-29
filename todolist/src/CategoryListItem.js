@@ -5,8 +5,8 @@ class CategoryListItem extends React.Component {
     super(props);
 
     this.state = {
-      inputValue: "새목록",
-      isWrite: true
+      inputValue: this.props.item.text,
+      isWrite: false
     };
   }
 
@@ -32,6 +32,31 @@ class CategoryListItem extends React.Component {
     }
   };
 
+  // onfocusout과 같은 기능 - S
+  // < 코드 분석하기...!! 분석전 >
+  focusInCurrentTarget = ({ relatedTarget, currentTarget }) => {
+    if (relatedTarget === null) return false;
+
+    var node = relatedTarget.parentNode;
+
+    while (node !== null) {
+      if (node === currentTarget) return true;
+      node = node.parentNode;
+    }
+
+    return false;
+  };
+
+  onBlur = e => {
+    if (!this.focusInCurrentTarget(e)) {
+      // this.props.handleTodoListTitleShow(this.state.value, this.state.cateId);
+      this.setState({
+        isWrite: false
+      });
+    }
+  };
+  // onfocusout과 같은 기능 - E
+
   render() {
     // console.log("this.props.itemId ? ", this.props.itemId);
     return (
@@ -42,12 +67,17 @@ class CategoryListItem extends React.Component {
             value={this.state.inputValue}
             onChange={this.handleInputChange}
             onKeyPress={this.inputEditComplete}
+            onBlur={this.onBlur}
             autoFocus
           />
         ) : null}
         <label
           className="cate-item"
           onDoubleClick={this.handelLabelDoubleClick}
+          onClick={this.props.clickCategoryItem.bind(
+            null,
+            this.state.inputValue
+          )}
         >
           {this.state.inputValue}
         </label>

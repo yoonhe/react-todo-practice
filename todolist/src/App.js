@@ -1,27 +1,32 @@
 import React from "react";
 import CategoryList from "./CategoryList";
+import TodoList from "./TodoList";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      categorys: []
+      categorys: JSON.parse(localStorage.getItem("categorys")) || [],
+      currentCategory: "",
+      todos: []
     };
   }
 
-  createCategoryItem = (text, key) => {
-    let newCategoryItem = {
-      text: text,
-      key: key
-    };
-
-    return newCategoryItem;
+  clickCategoryItem = item => {
+    this.setState({
+      currentCategory: item
+    });
   };
 
   addCategoryItem = (text, key) => {
+    let newCategory = {
+      text: text,
+      key: key
+    };
     this.setState({
-      categorys: [...this.state.categorys, this.createCategoryItem(text, key)]
+      categorys: [...this.state.categorys, newCategory],
+      currentCategory: text
     });
   };
 
@@ -37,22 +42,62 @@ class App extends React.Component {
     });
 
     this.setState({
-      categorys: newCategorys
+      categorys: newCategorys,
+      currentCategory: changeText
+    });
+  };
+
+  handleAddTodoBtn = (text, key) => {
+    if (!this.state.currentCategory) {
+      return;
+    }
+
+    let newTodo = {
+      category: this.state.currentCategory,
+      text: text,
+      key: key
+    };
+
+    this.setState({
+      todos: [...this.state.todos, newTodo]
+    });
+  };
+
+  editTodoItem = (changeText, todoKey) => {
+    let newTodos = this.state.todos;
+    newTodos.map(todo => {
+      if (todo.key === todoKey) {
+        todo.text = changeText;
+      }
+    });
+
+    this.setState({
+      todos: newTodos
     });
   };
 
   render() {
-    console.log("categorys ? ", this.state.categorys);
+    localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
+    console.log("todos ? ", this.state.todos);
+    console.log("currentCategory ? ", this.state.currentCategory);
     return (
       <React.Fragment>
         <div className="section left">
           <CategoryList
             categorys={this.state.categorys}
+            clickCategoryItem={this.clickCategoryItem}
             addCategoryItem={this.addCategoryItem}
             editCategoryItem={this.editCategoryItem}
           />
         </div>
-        <div className="section right"></div>
+        <div className="section right">
+          <TodoList
+            handleAddTodoBtn={this.handleAddTodoBtn}
+            currentCategory={this.state.currentCategory}
+            todos={this.state.todos}
+            editTodoItem={this.editTodoItem}
+          />
+        </div>
       </React.Fragment>
     );
   }
