@@ -8,8 +8,8 @@ class App extends React.Component {
 
     this.state = {
       categorys: JSON.parse(localStorage.getItem("categorys")) || [],
-      currentCategory: "",
-      todos: []
+      currentCategory: JSON.parse(localStorage.getItem("categorys"))[0].text,
+      todos: JSON.parse(localStorage.getItem("todos")) || []
     };
   }
 
@@ -78,6 +78,7 @@ class App extends React.Component {
 
   render() {
     localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
+    localStorage.setItem("todos", JSON.stringify(this.state.todos));
     console.log("todos ? ", this.state.todos);
     console.log("currentCategory ? ", this.state.currentCategory);
     return (

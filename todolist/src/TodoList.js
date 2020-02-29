@@ -10,18 +10,25 @@ const TodoList = ({
   <div className="todo-list-box">
     <h2>{currentCategory}</h2>
     <ul className="todo-list">
-      {todos.map((todo, idx) =>
+      {todos.map((todo, index) =>
         todo.category === currentCategory ? (
-          <TodoListItem key={idx} todo={todo} editTodoItem={editTodoItem} />
+          <TodoListItem
+            key={index}
+            index={index}
+            todo={todo}
+            editTodoItem={editTodoItem}
+          />
         ) : null
       )}
     </ul>
-    <button
-      className="btn-add-todo"
-      onClick={handleAddTodoBtn.bind(null, "", Date.now())}
-    >
-      새 할일 추가
-    </button>
+    <p className="btn-box">
+      <button
+        className="btn-add-todo"
+        onClick={handleAddTodoBtn.bind(null, "", Date.now())}
+      >
+        새 할일 추가
+      </button>
+    </p>
   </div>
 );
 

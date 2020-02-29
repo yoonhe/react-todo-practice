@@ -24,11 +24,12 @@ class TodoListItem extends React.Component {
   render() {
     return (
       <li>
-        <span>
-          <input type="checkbox" />
-          <label></label>
+        <span className="input-checkbox">
+          <input id={`item${this.props.index}`} type="checkbox" />
+          <label for={`item${this.props.index}`}></label>
         </span>
         <input
+          className="input-text"
           type="text"
           onChange={this.handleInputChange}
           onKeyPress={this.handleInputEnter}

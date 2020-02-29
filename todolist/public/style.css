@@ -1,7 +1,13 @@
 * {
   padding: 0;
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
+}
+
+input,
+button,
+a {
+  border: none;
 }
 
 #app {
@@ -91,6 +97,55 @@ li {
   width: calc(100% - 300px);
 }
 .todo-list-box h2 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 30px;
+}
+
+.todo-list-box ul {
+  border-top: 1px solid #dcdcdc;
+}
+
+.todo-list-box li {
+  display: flex;
+  align-items: center;
+}
+
+.todo-list-box li .input-checkbox {
+  margin-right: 10px;
+}
+.todo-list-box li .input-checkbox input {
+  display: none;
+}
+.todo-list-box li .input-checkbox label {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #dcdcdc;
+  border-radius: 50%;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+.todo-list-box li .input-checkbox input:checked + label {
+  background: skyblue;
+}
+.todo-list-box li .input-text {
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  border-bottom: 1px solid #dcdcdc;
+  box-sizing: border-box;
+}
+
+.btn-box {
+  margin-left: 34px;
+}
+.btn-add-todo {
+  display: block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  background: #fff;
+  border-bottom: 1px solid #dcdcdc;
+  cursor: pointer;
 }
