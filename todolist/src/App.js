@@ -35,7 +35,6 @@ class App extends React.Component {
   };
 
   editCategoryItem = (prevText, changeText, itemId) => {
-    console.log("itemid ? ", itemId);
     let newCategorys = this.state.categorys;
 
     // 카테고리 리스트중 현재 수정한 아이템과 id가 같은 목록만 매핑해준다
@@ -66,7 +65,8 @@ class App extends React.Component {
     let newTodo = {
       category: this.state.currentCategory,
       text: text,
-      key: key
+      key: key,
+      isChecked: false
     };
 
     this.setState({
@@ -87,6 +87,19 @@ class App extends React.Component {
     });
   };
 
+  handleCheckTodoItem = todoKey => {
+    let newTodos = this.state.todos;
+    newTodos.map(todo => {
+      if (todo.key === todoKey) {
+        todo.isChecked = !todo.isChecked;
+      }
+    });
+
+    this.setState({
+      todos: newTodos
+    });
+  };
+
   searchInputChange = text => {
     this.setState({
       searchValue: text
@@ -96,7 +109,6 @@ class App extends React.Component {
   render() {
     localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
     localStorage.setItem("todos", JSON.stringify(this.state.todos));
-    console.log("searchValue ? ", !!this.state.searchValue);
     return (
       <React.Fragment>
         <div className="section left">
@@ -115,6 +127,7 @@ class App extends React.Component {
             todos={this.state.todos}
             editTodoItem={this.editTodoItem}
             searchValue={this.state.searchValue}
+            handleCheckTodoItem={this.handleCheckTodoItem}
           />
         </div>
       </React.Fragment>

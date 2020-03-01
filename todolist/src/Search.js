@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 class Search extends React.Component {
   constructor(props) {
@@ -24,6 +26,9 @@ class Search extends React.Component {
           onChange={this.inputChange}
           placeholder="검색어를 입력하세요"
         />
+        <span className="search-ico">
+          <FontAwesomeIcon icon={faSearch} />
+        </span>
       </div>
     );
   }

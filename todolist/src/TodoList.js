@@ -6,19 +6,21 @@ const TodoList = ({
   currentCategory,
   todos,
   editTodoItem,
-  searchValue
+  searchValue,
+  handleCheckTodoItem
 }) => (
   <div className="todo-list-box">
     <h2>{searchValue ? `${searchValue}에 대한 결과` : currentCategory}</h2>
     <ul className="todo-list">
       {searchValue
         ? todos.map((todo, index) =>
-            !todo.text.indexOf(searchValue) ? (
+            todo.text.indexOf(searchValue) !== -1 ? (
               <TodoListItem
                 key={index}
                 index={index}
                 todo={todo}
                 editTodoItem={editTodoItem}
+                handleCheckTodoItem={handleCheckTodoItem}
               />
             ) : null
           )
@@ -29,6 +31,7 @@ const TodoList = ({
                 index={index}
                 todo={todo}
                 editTodoItem={editTodoItem}
+                handleCheckTodoItem={handleCheckTodoItem}
               />
             ) : null
           )}
