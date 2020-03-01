@@ -6,7 +6,8 @@ class CategoryListItem extends React.Component {
 
     this.state = {
       inputValue: this.props.item.text,
-      isWrite: false
+      isWrite: false,
+      isClick: false
     };
   }
 
@@ -25,7 +26,11 @@ class CategoryListItem extends React.Component {
   inputEditComplete = e => {
     console.log("this.props.itemId ? ", this.props.itemId);
     if (e.which === 13) {
-      this.props.editCategoryItem(e.target.value, this.props.itemId);
+      this.props.editCategoryItem(
+        this.props.item.text,
+        e.target.value,
+        this.props.itemId
+      );
       this.setState({
         isWrite: false
       });
@@ -57,8 +62,14 @@ class CategoryListItem extends React.Component {
   };
   // onfocusout과 같은 기능 - E
 
+  handleCategoryClick = () => {
+    console.log("this.state.isClick ? ", this.state.isClick);
+    this.setState({
+      isClick: !this.state.isClick
+    });
+  };
+
   render() {
-    // console.log("this.props.itemId ? ", this.props.itemId);
     return (
       <li>
         {this.state.isWrite ? (
@@ -74,10 +85,10 @@ class CategoryListItem extends React.Component {
         <label
           className="cate-item"
           onDoubleClick={this.handelLabelDoubleClick}
-          onClick={this.props.clickCategoryItem.bind(
-            null,
-            this.state.inputValue
-          )}
+          onClick={() => {
+            this.props.clickCategoryItem(this.state.inputValue);
+            this.handleCategoryClick();
+          }}
         >
           {this.state.inputValue}
         </label>

@@ -5,7 +5,8 @@ class TodoListItem extends React.Component {
     super(props);
 
     this.state = {
-      inputValue: this.props.todo.text
+      inputValue: this.props.todo.text,
+      isWrite: true
     };
   }
 
@@ -18,7 +19,17 @@ class TodoListItem extends React.Component {
   handleInputEnter = e => {
     if (e.which === 13) {
       this.props.editTodoItem(this.state.inputValue, this.props.todo.key);
+
+      this.setState({
+        isWrite: !this.state.isWrite
+      });
     }
+  };
+
+  inputTextNoLock = () => {
+    this.setState({
+      isWrite: !this.state.isWrite
+    });
   };
 
   render() {
@@ -26,15 +37,28 @@ class TodoListItem extends React.Component {
       <li>
         <span className="input-checkbox">
           <input id={`item${this.props.index}`} type="checkbox" />
-          <label for={`item${this.props.index}`}></label>
+          <label htmlFor={`item${this.props.index}`}></label>
         </span>
-        <input
-          className="input-text"
-          type="text"
-          onChange={this.handleInputChange}
-          onKeyPress={this.handleInputEnter}
-          value={this.state.inputValue}
-        />
+        {this.state.isWrite ? (
+          <input
+            className="input-text"
+            type="text"
+            onChange={this.handleInputChange}
+            onKeyPress={this.handleInputEnter}
+            value={this.state.inputValue}
+          />
+        ) : (
+          <input
+            className="input-text"
+            type="text"
+            onChange={this.handleInputChange}
+            onKeyPress={this.handleInputEnter}
+            value={this.state.inputValue}
+            onClick={this.inputTextNoLock}
+            onFocus={this.inputTextNoLock}
+            readOnly
+          />
+        )}
       </li>
     );
   }

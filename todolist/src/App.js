@@ -1,6 +1,7 @@
 import React from "react";
 import CategoryList from "./CategoryList";
 import TodoList from "./TodoList";
+import Search from "./Search";
 
 class App extends React.Component {
   constructor(props) {
@@ -8,8 +9,11 @@ class App extends React.Component {
 
     this.state = {
       categorys: JSON.parse(localStorage.getItem("categorys")) || [],
-      currentCategory: JSON.parse(localStorage.getItem("categorys"))[0].text,
-      todos: JSON.parse(localStorage.getItem("todos")) || []
+      currentCategory: localStorage.getItem("categorys")
+        ? JSON.parse(localStorage.getItem("categorys"))[0].text
+        : null,
+      todos: JSON.parse(localStorage.getItem("todos")) || [],
+      searchValue: null
     };
   }
 
@@ -30,7 +34,7 @@ class App extends React.Component {
     });
   };
 
-  editCategoryItem = (changeText, itemId) => {
+  editCategoryItem = (prevText, changeText, itemId) => {
     console.log("itemid ? ", itemId);
     let newCategorys = this.state.categorys;
 
@@ -38,6 +42,13 @@ class App extends React.Component {
     newCategorys.map(item => {
       if (item.key === itemId) {
         item.text = changeText;
+      }
+    });
+
+    let newTodos = this.state.todos;
+    newTodos.map(todo => {
+      if (todo.category === prevText) {
+        todo.category = changeText;
       }
     });
 
@@ -76,11 +87,16 @@ class App extends React.Component {
     });
   };
 
+  searchInputChange = text => {
+    this.setState({
+      searchValue: text
+    });
+  };
+
   render() {
     localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
     localStorage.setItem("todos", JSON.stringify(this.state.todos));
-    console.log("todos ? ", this.state.todos);
-    console.log("currentCategory ? ", this.state.currentCategory);
+    console.log("searchValue ? ", !!this.state.searchValue);
     return (
       <React.Fragment>
         <div className="section left">
@@ -92,11 +108,13 @@ class App extends React.Component {
           />
         </div>
         <div className="section right">
+          <Search searchInputChange={this.searchInputChange} />
           <TodoList
             handleAddTodoBtn={this.handleAddTodoBtn}
             currentCategory={this.state.currentCategory}
             todos={this.state.todos}
             editTodoItem={this.editTodoItem}
+            searchValue={this.state.searchValue}
           />
         </div>
       </React.Fragment>
