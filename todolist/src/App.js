@@ -53,7 +53,8 @@ class App extends React.Component {
 
     this.setState({
       categorys: newCategorys,
-      currentCategory: changeText
+      currentCategory: changeText,
+      todos: newTodos
     });
   };
 
@@ -107,6 +108,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log("todos", this.state.todos);
     localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
     localStorage.setItem("todos", JSON.stringify(this.state.todos));
     return (

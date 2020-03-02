@@ -3,6 +3,9 @@
   margin: 0;
   font-size: 16px;
 }
+*:focus {
+  outline: 0;
+}
 
 input,
 button,
@@ -121,8 +124,16 @@ li {
   margin-bottom: 10px;
   font-size: 30px;
 }
+.todo-complete-list + .todo-list {
+  margin-top: 100px;
+}
+.todo-complete-list h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #666;
+}
 
-.todo-list-box ul {
+.todo-list-box .todo-list {
   border-top: 1px solid #dcdcdc;
 }
 
