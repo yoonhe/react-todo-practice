@@ -23,11 +23,23 @@ class App extends React.Component {
     });
   };
 
-  addCategoryItem = (text, key) => {
+  addCategoryItem = key => {
+    let text = "새목록";
+    let count = 1;
+
+    this.state.categorys.forEach(category => {
+      category.text === `${text}${count}` && count++;
+    });
+
+    text = `${text}${count}`;
+
     let newCategory = {
       text: text,
-      key: key
+      key: key,
+      isClick: false,
+      isWrite: false
     };
+
     this.setState({
       categorys: [...this.state.categorys, newCategory],
       currentCategory: text
@@ -58,6 +70,21 @@ class App extends React.Component {
     });
   };
 
+  categoryInputTextNoLock = categoryKey => {
+    let newCategorys = this.state.categorys;
+    newCategorys.map(category => {
+      console.log("categoryKey ? ", categoryKey);
+      // console.log("category.isWrite ? ", category.isWrite);
+      if (category.key === categoryKey) {
+        console.log("같음");
+        category.isWrite = !category.isWrite;
+      }
+    });
+    this.setState({
+      categorys: newCategorys
+    });
+  };
+
   handleAddTodoBtn = (text, key) => {
     if (!this.state.currentCategory) {
       return;
@@ -67,7 +94,8 @@ class App extends React.Component {
       category: this.state.currentCategory,
       text: text,
       key: key,
-      isChecked: false
+      isChecked: false,
+      isWrite: true
     };
 
     this.setState({
@@ -80,9 +108,22 @@ class App extends React.Component {
     newTodos.map(todo => {
       if (todo.key === todoKey) {
         todo.text = changeText;
+        todo.isWrite = !todo.isWrite;
       }
     });
 
+    this.setState({
+      todos: newTodos
+    });
+  };
+
+  todoInputTextNoLock = todoKey => {
+    let newTodos = this.state.todos;
+    newTodos.map(todo => {
+      if (todo.key === todoKey) {
+        todo.isWrite = true;
+      }
+    });
     this.setState({
       todos: newTodos
     });
@@ -108,7 +149,7 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("todos", this.state.todos);
+    console.log("categorys", this.state.categorys);
     localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
     localStorage.setItem("todos", JSON.stringify(this.state.todos));
     return (
@@ -116,9 +157,11 @@ class App extends React.Component {
         <div className="section left">
           <CategoryList
             categorys={this.state.categorys}
+            currentCategory={this.state.currentCategory}
             clickCategoryItem={this.clickCategoryItem}
             addCategoryItem={this.addCategoryItem}
             editCategoryItem={this.editCategoryItem}
+            categoryInputTextNoLock={this.categoryInputTextNoLock}
           />
         </div>
         <div className="section right">
@@ -130,6 +173,7 @@ class App extends React.Component {
             editTodoItem={this.editTodoItem}
             searchValue={this.state.searchValue}
             handleCheckTodoItem={this.handleCheckTodoItem}
+            todoInputTextNoLock={this.todoInputTextNoLock}
           />
         </div>
       </React.Fragment>

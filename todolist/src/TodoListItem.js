@@ -5,9 +5,7 @@ class TodoListItem extends React.Component {
     super(props);
 
     this.state = {
-      inputValue: this.props.todo.text,
-      isWrite: true,
-      isChecked: this.props.todo.isChecked
+      inputValue: this.props.todo.text
     };
   }
 
@@ -20,55 +18,21 @@ class TodoListItem extends React.Component {
   handleInputEnter = e => {
     if (e.which === 13) {
       this.props.editTodoItem(this.state.inputValue, this.props.todo.key);
-
-      this.setState({
-        isWrite: !this.state.isWrite
-      });
     }
-  };
-
-  inputTextNoLock = () => {
-    this.setState({
-      isWrite: !this.state.isWrite
-    });
-  };
-
-  // onfocusout과 같은 기능 - S
-  // < 코드 분석하기...!! 분석전 >
-  focusInCurrentTarget = ({ relatedTarget, currentTarget }) => {
-    if (relatedTarget === null) return false;
-
-    var node = relatedTarget.parentNode;
-
-    while (node !== null) {
-      if (node === currentTarget) return true;
-      node = node.parentNode;
-    }
-
-    return false;
   };
 
   onBlur = e => {
-    if (!this.focusInCurrentTarget(e)) {
-      this.props.editTodoItem(this.state.inputValue, this.props.todo.key);
-      this.setState({
-        isWrite: false
-      });
-    }
+    this.props.editTodoItem(this.state.inputValue, this.props.todo.key);
   };
-  // onfocusout과 같은 기능 - E
 
   clickCheckbox = () => {
     this.props.handleCheckTodoItem(this.props.todo.key);
-
-    this.setState({
-      isChecked: !this.state.isChecked
-    });
   };
 
   render() {
-    let checked = this.state.isChecked ? "checked" : "";
-
+    let checked = this.props.todo.isChecked ? "checked" : "";
+    // 질문
+    // readOnly on off가 좋은방법인지? input on off가 좋은 방법인지?
     return (
       <li>
         <span className="input-checkbox">
@@ -80,7 +44,7 @@ class TodoListItem extends React.Component {
           />
           <label htmlFor={`item${this.props.index}`}></label>
         </span>
-        {this.state.isWrite ? (
+        {this.props.todo.isWrite ? (
           <input
             className="input-text"
             type="text"
@@ -96,8 +60,8 @@ class TodoListItem extends React.Component {
             onChange={this.handleInputChange}
             onKeyPress={this.handleInputEnter}
             value={this.state.inputValue}
-            onClick={this.inputTextNoLock}
-            onFocus={this.inputTextNoLock}
+            onClick={() => this.props.todoInputTextNoLock(this.props.todo.key)}
+            onFocus={() => this.props.todoInputTextNoLock(this.props.todo.key)}
             readOnly
           />
         )}

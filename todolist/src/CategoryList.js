@@ -5,13 +5,15 @@ const CategoryList = ({
   categorys,
   clickCategoryItem,
   addCategoryItem,
-  editCategoryItem
+  editCategoryItem,
+  categoryInputTextNoLock,
+  currentCategory
 }) => (
   <div className="category-wrap">
     <p className="btn-box">
       <button
         className="btn-add-cate"
-        onClick={addCategoryItem.bind(null, "새목록", Date.now())}
+        onClick={addCategoryItem.bind(null, Date.now())}
       >
         카테고리 추가하기
       </button>
@@ -20,10 +22,12 @@ const CategoryList = ({
       {categorys.map((item, index) => (
         <CategoryListItem
           item={item}
+          currentCategory={currentCategory}
           key={index}
           itemId={item["key"]}
           editCategoryItem={editCategoryItem}
           clickCategoryItem={clickCategoryItem}
+          categoryInputTextNoLock={categoryInputTextNoLock}
         />
       ))}
     </ul>

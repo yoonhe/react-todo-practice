@@ -5,9 +5,7 @@ class CategoryListItem extends React.Component {
     super(props);
 
     this.state = {
-      inputValue: this.props.item.text,
-      isWrite: false,
-      isClick: false
+      inputValue: this.props.item.text
     };
   }
 
@@ -17,50 +15,22 @@ class CategoryListItem extends React.Component {
     });
   };
 
-  handelLabelDoubleClick = () => {
-    this.setState({
-      isWrite: true
-    });
-  };
-
   inputEditComplete = e => {
-    console.log("this.props.itemId ? ", this.props.itemId);
     if (e.which === 13) {
       this.props.editCategoryItem(
         this.props.item.text,
         e.target.value,
         this.props.itemId
       );
-      this.setState({
-        isWrite: false
-      });
+      this.props.categoryInputTextNoLock(this.props.item.key);
     }
-  };
-
-  // onfocusout과 같은 기능 - S
-  // < 코드 분석하기...!! 분석전 >
-  focusInCurrentTarget = ({ relatedTarget, currentTarget }) => {
-    if (relatedTarget === null) return false;
-
-    var node = relatedTarget.parentNode;
-
-    while (node !== null) {
-      if (node === currentTarget) return true;
-      node = node.parentNode;
-    }
-
-    return false;
   };
 
   onBlur = e => {
-    if (!this.focusInCurrentTarget(e)) {
-      // this.props.handleTodoListTitleShow(this.state.value, this.state.cateId);
-      this.setState({
-        isWrite: false
-      });
-    }
+    this.setState({
+      isWrite: false
+    });
   };
-  // onfocusout과 같은 기능 - E
 
   handleCategoryClick = () => {
     console.log("this.state.isClick ? ", this.state.isClick);
@@ -70,21 +40,31 @@ class CategoryListItem extends React.Component {
   };
 
   render() {
+    console.log(this.props.currentCategory === this.state.inputValue);
+    let style = {
+      background:
+        this.props.currentCategory === this.state.inputValue ? "#222" : null
+    };
+
     return (
-      <li>
-        {this.state.isWrite ? (
+      <li style={style}>
+        {this.props.item.isWrite ? (
           <input
             type="text"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
             onKeyPress={this.inputEditComplete}
-            onBlur={this.onBlur}
+            onBlur={() =>
+              this.props.categoryInputTextNoLock(this.props.item.key)
+            }
             autoFocus
           />
         ) : null}
         <label
           className="cate-item"
-          onDoubleClick={this.handelLabelDoubleClick}
+          onDoubleClick={() =>
+            this.props.categoryInputTextNoLock(this.props.item.key)
+          }
           onClick={() => {
             this.props.clickCategoryItem(this.state.inputValue);
             this.handleCategoryClick();
