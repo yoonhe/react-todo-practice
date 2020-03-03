@@ -13,11 +13,20 @@ class App extends React.Component {
         ? JSON.parse(localStorage.getItem("categorys"))[0].text
         : null,
       todos: JSON.parse(localStorage.getItem("todos")) || [],
-      searchValue: null
+      searchValue: ""
     };
   }
 
-  clickCategoryItem = item => {
+  clickCategoryItem = (item, itemKey) => {
+    let newCategorys = this.state.categorys;
+    newCategorys.map(category => {
+      if (category.key === itemKey) {
+        return (category.isClick = true);
+      } else {
+        return (category.isClick = false);
+      }
+    });
+
     this.setState({
       currentCategory: item
     });
@@ -25,23 +34,20 @@ class App extends React.Component {
 
   addCategoryItem = key => {
     let text = "새목록";
-    let count = 1;
-
-    this.state.categorys.forEach(category => {
-      category.text === `${text}${count}` && count++;
-    });
-
-    text = `${text}${count}`;
-
     let newCategory = {
       text: text,
       key: key,
-      isClick: false,
+      isClick: true,
       isWrite: false
     };
 
+    let newCategorys = this.state.categorys;
+    newCategorys.map(category => {
+      return (category.isClick = false);
+    });
+
     this.setState({
-      categorys: [...this.state.categorys, newCategory],
+      categorys: [...newCategorys, newCategory],
       currentCategory: text
     });
   };
@@ -52,14 +58,14 @@ class App extends React.Component {
     // 카테고리 리스트중 현재 수정한 아이템과 id가 같은 목록만 매핑해준다
     newCategorys.map(item => {
       if (item.key === itemId) {
-        item.text = changeText;
+        return (item.text = changeText);
       }
     });
 
     let newTodos = this.state.todos;
     newTodos.map(todo => {
       if (todo.category === prevText) {
-        todo.category = changeText;
+        return (todo.category = changeText);
       }
     });
 
@@ -73,11 +79,10 @@ class App extends React.Component {
   categoryInputTextNoLock = categoryKey => {
     let newCategorys = this.state.categorys;
     newCategorys.map(category => {
-      console.log("categoryKey ? ", categoryKey);
-      // console.log("category.isWrite ? ", category.isWrite);
       if (category.key === categoryKey) {
-        console.log("같음");
         category.isWrite = !category.isWrite;
+        category.isClick = true;
+        return category;
       }
     });
     this.setState({
@@ -109,6 +114,7 @@ class App extends React.Component {
       if (todo.key === todoKey) {
         todo.text = changeText;
         todo.isWrite = !todo.isWrite;
+        return todo;
       }
     });
 
@@ -149,7 +155,6 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("categorys", this.state.categorys);
     localStorage.setItem("categorys", JSON.stringify(this.state.categorys));
     localStorage.setItem("todos", JSON.stringify(this.state.todos));
     return (
@@ -157,7 +162,6 @@ class App extends React.Component {
         <div className="section left">
           <CategoryList
             categorys={this.state.categorys}
-            currentCategory={this.state.currentCategory}
             clickCategoryItem={this.clickCategoryItem}
             addCategoryItem={this.addCategoryItem}
             editCategoryItem={this.editCategoryItem}
@@ -165,7 +169,10 @@ class App extends React.Component {
           />
         </div>
         <div className="section right">
-          <Search searchInputChange={this.searchInputChange} />
+          <Search
+            searchInputChange={this.searchInputChange}
+            searchValue={this.state.searchValue}
+          />
           <TodoList
             handleAddTodoBtn={this.handleAddTodoBtn}
             currentCategory={this.state.currentCategory}

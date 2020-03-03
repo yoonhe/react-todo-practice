@@ -32,24 +32,16 @@ class CategoryListItem extends React.Component {
     });
   };
 
-  handleCategoryClick = () => {
-    console.log("this.state.isClick ? ", this.state.isClick);
-    this.setState({
-      isClick: !this.state.isClick
-    });
-  };
-
   render() {
-    console.log(this.props.currentCategory === this.state.inputValue);
     let style = {
-      background:
-        this.props.currentCategory === this.state.inputValue ? "#222" : null
+      background: this.props.item.isClick ? "#222" : null
     };
 
     return (
       <li style={style}>
         {this.props.item.isWrite ? (
           <input
+            style={style}
             type="text"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
@@ -66,8 +58,10 @@ class CategoryListItem extends React.Component {
             this.props.categoryInputTextNoLock(this.props.item.key)
           }
           onClick={() => {
-            this.props.clickCategoryItem(this.state.inputValue);
-            this.handleCategoryClick();
+            this.props.clickCategoryItem(
+              this.state.inputValue,
+              this.props.item.key
+            );
           }}
         >
           {this.state.inputValue}

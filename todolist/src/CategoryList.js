@@ -6,8 +6,7 @@ const CategoryList = ({
   clickCategoryItem,
   addCategoryItem,
   editCategoryItem,
-  categoryInputTextNoLock,
-  currentCategory
+  categoryInputTextNoLock
 }) => (
   <div className="category-wrap">
     <p className="btn-box">
@@ -22,7 +21,6 @@ const CategoryList = ({
       {categorys.map((item, index) => (
         <CategoryListItem
           item={item}
-          currentCategory={currentCategory}
           key={index}
           itemId={item["key"]}
           editCategoryItem={editCategoryItem}

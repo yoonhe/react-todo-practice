@@ -18,13 +18,25 @@ class Search extends React.Component {
     });
   };
 
+  handleKeyDownEsc = e => {
+    if (e.which === 27) {
+      this.props.searchInputChange("");
+    }
+  };
+
   render() {
     return (
       <div className="search-box">
         <input
           type="text"
           onChange={this.inputChange}
+          onKeyDown={this.handleKeyDownEsc}
           placeholder="검색어를 입력하세요"
+          value={
+            this.props.searchValue === ""
+              ? this.props.searchValue
+              : this.state.value
+          }
         />
         <span className="search-ico">
           <FontAwesomeIcon icon={faSearch} />
