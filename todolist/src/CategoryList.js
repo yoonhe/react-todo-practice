@@ -6,7 +6,7 @@ const CategoryList = ({
   clickCategoryItem,
   addCategoryItem,
   editCategoryItem,
-  categoryInputTextNoLock
+  handleCategoryInputLock
 }) => (
   <div className="category-wrap">
     <p className="btn-box">
@@ -25,7 +25,7 @@ const CategoryList = ({
           itemId={item["key"]}
           editCategoryItem={editCategoryItem}
           clickCategoryItem={clickCategoryItem}
-          categoryInputTextNoLock={categoryInputTextNoLock}
+          handleCategoryInputLock={handleCategoryInputLock}
         />
       ))}
     </ul>

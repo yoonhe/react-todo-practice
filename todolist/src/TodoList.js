@@ -5,10 +5,10 @@ const TodoList = ({
   handleAddTodoBtn,
   currentCategory,
   todos,
-  editTodoItem,
+  editTodoItemAndInputLock,
   searchValue,
   handleCheckTodoItem,
-  todoInputTextNoLock
+  handleTodoInputTextLock
 }) => (
   <div className="todo-list-box">
     <h2>{searchValue ? `${searchValue}에 대한 결과` : currentCategory}</h2>
@@ -26,13 +26,14 @@ const TodoList = ({
         <ul className="todo-list complete">
           {todos.map((todo, index) =>
             todo.category === currentCategory && todo.isChecked ? (
+              // 반복되는 코드...
               <TodoListItem
                 key={index}
                 index={index}
                 todo={todo}
-                editTodoItem={editTodoItem}
+                editTodoItemAndInputLock={editTodoItemAndInputLock}
                 handleCheckTodoItem={handleCheckTodoItem}
-                todoInputTextNoLock={todoInputTextNoLock}
+                handleTodoInputTextLock={handleTodoInputTextLock}
               />
             ) : null
           )}
@@ -47,9 +48,9 @@ const TodoList = ({
                 key={index}
                 index={index}
                 todo={todo}
-                editTodoItem={editTodoItem}
+                editTodoItemAndInputLock={editTodoItemAndInputLock}
                 handleCheckTodoItem={handleCheckTodoItem}
-                todoInputTextNoLock={todoInputTextNoLock}
+                handleTodoInputTextLock={handleTodoInputTextLock}
               />
             ) : null
           )
@@ -59,9 +60,9 @@ const TodoList = ({
                 key={index}
                 index={index}
                 todo={todo}
-                editTodoItem={editTodoItem}
+                editTodoItemAndInputLock={editTodoItemAndInputLock}
                 handleCheckTodoItem={handleCheckTodoItem}
-                todoInputTextNoLock={todoInputTextNoLock}
+                handleTodoInputTextLock={handleTodoInputTextLock}
               />
             ) : null
           )}

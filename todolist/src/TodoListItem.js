@@ -17,12 +17,18 @@ class TodoListItem extends React.Component {
 
   handleInputEnter = e => {
     if (e.which === 13) {
-      this.props.editTodoItem(this.state.inputValue, this.props.todo.key);
+      this.props.editTodoItemAndInputLock(
+        this.state.inputValue,
+        this.props.todo.key
+      );
     }
   };
 
   onBlur = e => {
-    this.props.editTodoItem(this.state.inputValue, this.props.todo.key);
+    this.props.editTodoItemAndInputLock(
+      this.state.inputValue,
+      this.props.todo.key
+    );
   };
 
   clickCheckbox = () => {
@@ -52,6 +58,7 @@ class TodoListItem extends React.Component {
             onKeyPress={this.handleInputEnter}
             value={this.state.inputValue}
             onBlur={this.onBlur}
+            autoFocus
           />
         ) : (
           <input
@@ -60,8 +67,12 @@ class TodoListItem extends React.Component {
             onChange={this.handleInputChange}
             onKeyPress={this.handleInputEnter}
             value={this.state.inputValue}
-            onClick={() => this.props.todoInputTextNoLock(this.props.todo.key)}
-            onFocus={() => this.props.todoInputTextNoLock(this.props.todo.key)}
+            onClick={() =>
+              this.props.handleTodoInputTextLock(this.props.todo.key)
+            }
+            onFocus={() =>
+              this.props.handleTodoInputTextLock(this.props.todo.key)
+            }
             readOnly
           />
         )}

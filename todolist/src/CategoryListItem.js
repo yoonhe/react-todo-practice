@@ -22,7 +22,7 @@ class CategoryListItem extends React.Component {
         e.target.value,
         this.props.itemId
       );
-      this.props.categoryInputTextNoLock(this.props.item.key);
+      this.props.handleCategoryInputLock(this.props.item.key);
     }
   };
 
@@ -47,7 +47,7 @@ class CategoryListItem extends React.Component {
             onChange={this.handleInputChange}
             onKeyPress={this.inputEditComplete}
             onBlur={() =>
-              this.props.categoryInputTextNoLock(this.props.item.key)
+              this.props.handleCategoryInputLock(this.props.item.key)
             }
             autoFocus
           />
@@ -55,7 +55,7 @@ class CategoryListItem extends React.Component {
         <label
           className="cate-item"
           onDoubleClick={() =>
-            this.props.categoryInputTextNoLock(this.props.item.key)
+            this.props.handleCategoryInputLock(this.props.item.key)
           }
           onClick={() => {
             this.props.clickCategoryItem(
